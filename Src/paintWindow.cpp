@@ -44,6 +44,7 @@ void PaintWindow::_createActions(void) {
   _newAct->setData(QVariant("_newAct data"));
 
   _saveAct = new QAction(tr("&Save"),this);
+  _saveAct->setDisabled(true);
   _saveAct->setIcon(QIcon(":/Images/save.png"));
   _saveAct->setShortcut(tr("Ctrl+S"));
   _saveAct->setToolTip(tr("Save file tooltip"));
@@ -51,6 +52,7 @@ void PaintWindow::_createActions(void) {
   _saveAct->setData(QVariant("_saveAct data"));
 
   _saveAsAct = new QAction(tr("&Save As"),this);
+  _saveAsAct->setDisabled(true);
   _saveAsAct->setIcon(QIcon(":/Images/save_as.png"));
   _saveAsAct->setShortcut(tr("Ctrl+Maj+S"));
   _saveAsAct->setToolTip(tr("Save As file tooltip"));
@@ -168,6 +170,9 @@ void PaintWindow::_newFile(void)  {
   switch(ret){
   case QMessageBox::Save:
     // save the picture
+    _saveFile();
+    _area = new PaintArea(this);
+    setCentralWidget(_area);
     break;
   case QMessageBox::Discard:
     // Don't save the picture
