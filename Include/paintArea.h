@@ -11,7 +11,7 @@ class PaintArea : public QWidget
   Q_OBJECT  
 
   public:
-    PaintArea(QWidget *parent = 0);
+  PaintArea(QWidget *parent = 0, QString file = "");
   public slots:
     void setCurrentTool(int);
   protected :
@@ -20,6 +20,8 @@ class PaintArea : public QWidget
     void mouseReleaseEvent(QMouseEvent*);
     void mouseDoubleClickEvent(QMouseEvent* evt);
     void paintEvent(QPaintEvent*);
+   
+
   private :
    QPoint  _startPoint,_endPoint;
    QPixmap *_buffer;

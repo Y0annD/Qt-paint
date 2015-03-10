@@ -1,11 +1,17 @@
 #include "enums.h"
 #include "paintArea.h"
 
-PaintArea::PaintArea(QWidget *parent) : QWidget(parent) {
+PaintArea::PaintArea(QWidget *parent, QString file) : QWidget(parent) {
   qDebug() << "PaintArea::PaintArea(void)";
   _startPoint = _endPoint = QPoint(0,0);
-  _buffer = new QPixmap(parent->size());
-  _buffer->fill(Qt::white);
+  if(file!=""){
+    _buffer = new QPixmap(file);
+    parent->setFixedWidth(_buffer->width());
+    parent->setFixedHeight(_buffer->height());
+  }else{
+    _buffer = new QPixmap(parent->size());
+    _buffer->fill(Qt::white);
+  }
   _release=false;
 }
 
@@ -61,4 +67,3 @@ void PaintArea::paintEvent(QPaintEvent* evt)
 void PaintArea::setCurrentTool(int tool) {
   _currentTool = tool;
 }
-

@@ -32,7 +32,7 @@ void PaintWindow::_createMenus(void) {
 }
 //--------------------------------------------------------------------------------
 void PaintWindow::_createToolBars(void) {
- _toolBar=addToolBar( tr("File") ); 
+  _toolBar=addToolBar( tr("File") ); 
 }
 //--------------------------------------------------------------------------------
 void PaintWindow::_createActions(void) {
@@ -187,6 +187,19 @@ void PaintWindow::_newFile(void)  {
 
 void PaintWindow::_openFile(void){
   qDebug() << "PaintWindow::_openFile(void)";
+  QString file;
+  file = QFileDialog::getOpenFileName(this,
+                                          tr("Open Image"),NULL, tr("ImageFile(*.png *.jpg *.bmp)"));
+  if(file!=""){
+    _area=new PaintArea(this,file);
+    setCentralWidget(_area);
+    filename = file;
+  }else{
+    _area=new PaintArea(this,"");
+  }
+  
+  
+  qDebug() << filename;
 }
 
 void PaintWindow::_saveFile(void){
