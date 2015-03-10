@@ -150,12 +150,34 @@ void PaintWindow::_aboutQt(void) {
 //--------------------------------------------------------------------------------
 void PaintWindow::_newFile(void)  {
   qDebug() << "PaintWindow::_newFile(void)";
-  QMessageBox msgBox;
+  /*  QMessageBox msgBox;
+  msgBox.setIcon(QMessageBox::Warning);
   msgBox.setText("Le document a été modifié.");
   msgBox.setInformativeText("Voulez-vous enregistrer les changements avant de recommencer?");
-  msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::NoRole | QMessageBox::Cancel);
+  msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
   msgBox.setDefaultButton(QMessageBox::Save);
-  int ret = msgBox.exec();
+  int ret = msgBox.exec();*/
+  
+  int ret = QMessageBox::warning(this, tr("Paint Diquélou - Toscer"),
+                                tr("The document has been modified.\n"
+                                   "Do you want to save your changes?"),
+                                QMessageBox::Save | QMessageBox::Discard
+                                | QMessageBox::Cancel,
+                                QMessageBox::Save);
+
+  switch(ret){
+  case QMessageBox::Save:
+    // save the picture
+    break;
+  case QMessageBox::Discard:
+    // Don't save the picture
+    break;
+  case QMessageBox::Cancel:
+    break;
+  default:
+    // Hey GUY you're wrong
+    break;
+  }
 }
 
 void PaintWindow::_openFile(void){
