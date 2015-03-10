@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QDebug>
+#include <math.h>
 
 class PaintArea : public QWidget
 {
@@ -14,6 +15,8 @@ class PaintArea : public QWidget
   PaintArea(QWidget *parent = 0, QString file = "");
   public slots:
     void setCurrentTool(int);
+    bool savePicture(QString);
+    bool loadPicture(QString);
   protected :
     void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);

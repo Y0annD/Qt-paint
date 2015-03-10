@@ -17,6 +17,7 @@ PaintWindow::PaintWindow(QWidget *parent) : QMainWindow(parent) {
   _signalMapper = new QSignalMapper(this);
   _signalMapper->setMapping(_freehandAct, TOOLS_ID_FREEHAND);
   _signalMapper->setMapping(_lineAct, TOOLS_ID_LINE);
+  _signalMapper->setMapping(_circleAct, TOOLS_ID_CIRCLE);
   _signalMapper->setMapping(_rectAct, TOOLS_ID_RECTANGLE);
   _signalMapper->setMapping(_polyAct, TOOLS_ID_POLYGON);
 
@@ -44,7 +45,7 @@ void PaintWindow::_createActions(void) {
   _newAct->setData(QVariant("_newAct data"));
 
   _saveAct = new QAction(tr("&Save"),this);
-  _saveAct->setDisabled(true);
+  //  _saveAct->setDisabled(true);
   _saveAct->setIcon(QIcon(":/Images/save.png"));
   _saveAct->setShortcut(tr("Ctrl+S"));
   _saveAct->setToolTip(tr("Save file tooltip"));
@@ -52,7 +53,7 @@ void PaintWindow::_createActions(void) {
   _saveAct->setData(QVariant("_saveAct data"));
 
   _saveAsAct = new QAction(tr("&Save As"),this);
-  _saveAsAct->setDisabled(true);
+  //  _saveAsAct->setDisabled(true);
   _saveAsAct->setIcon(QIcon(":/Images/save_as.png"));
   _saveAsAct->setShortcut(tr("Ctrl+Maj+S"));
   _saveAsAct->setToolTip(tr("Save As file tooltip"));
@@ -79,11 +80,13 @@ void PaintWindow::_createActions(void) {
   _toolsQag = new QActionGroup( this );
   _freehandAct = new QAction(QIcon(":/Images/tool_pen.png"),tr("&Freehand"),  this);
   _lineAct = new QAction(QIcon(":/Images/tool_line.png"),tr("&Line"), this);
+  _circleAct = new QAction(QIcon(":/Images/tool_ellipse.png"),tr("&Circle"),this);
   _rectAct = new QAction(QIcon(":/Images/tool_rectangle.png"),tr("&Rectangle"), this);
   _polyAct = new QAction(QIcon(":/Images/tool_polygon.png"),tr("&Polygon"), this);
   _textAct = new QAction(QIcon(":/Images/tool_text.png"),tr("&Text"),this);
   _freehandAct->setCheckable(true);
   _lineAct->setCheckable(true);
+  _circleAct->setCheckable(true);
   _rectAct->setCheckable(true);
   _polyAct->setCheckable(true);
 }
@@ -105,6 +108,7 @@ void PaintWindow::_connectActions(void) {
 
  _toolsQag->addAction(_freehandAct);
  _toolsQag->addAction(_lineAct);
+ _toolsQag->addAction(_circleAct);
  _toolsQag->addAction(_rectAct);
  _toolsQag->addAction(_polyAct);
 
@@ -112,6 +116,7 @@ void PaintWindow::_connectActions(void) {
  _toolMenu->addAction(_freehandAct);
  _toolMenu->addAction(_lineAct);
  _toolMenu->addAction(_rectAct);
+ _toolMenu->addAction(_circleAct);
  _toolMenu->addAction(_polyAct);
  _toolMenu->addSeparator();
  _toolMenu->addAction(_textAct);
@@ -133,6 +138,7 @@ void PaintWindow::_connectSignals(void) {
  connect(_lineAct,SIGNAL(activated()),_signalMapper, SLOT(map()));
  connect(_rectAct,SIGNAL(activated()),_signalMapper, SLOT(map()));
  connect(_polyAct,SIGNAL(activated()),_signalMapper, SLOT(map()));
+ connect(_circleAct,SIGNAL(activated()),_signalMapper, SLOT(map()));
  connect(_textAct, SIGNAL(activated()),_signalMapper,SLOT(map()));
 
  connect(_aboutAct, SIGNAL(triggered()),this, SLOT(_about()));
@@ -191,25 +197,42 @@ void PaintWindow::_openFile(void){
   file = QFileDialog::getOpenFileName(this,
                                           tr("Open Image"),NULL, tr("ImageFile(*.png *.jpg *.bmp)"));
   if(file!=""){
-    _area=new PaintArea(this,file);
-    setCentralWidget(_area);
+    /*_area=new PaintArea(this,file);
+      setCentralWidget(_area);*/
+    _area->loadPicture(file);
+    _saveAct->setDisabled(false);
+    _saveAsAct->setDisabled(false);
     filename = file;
-  }else{
-    _area=new PaintArea(this,"");
   }
-  
   
   qDebug() << filename;
 }
 
 void PaintWindow::_saveFile(void){
   qDebug() << "PaintWindow::_saveFile(void)";
+  if(filename != NULL && filename != ""){
+    _area->savePicture(filename);
+  }else{
+    _saveAsFile();
+  }
 }
 
 void PaintWindow::_saveAsFile(void){
   qDebug() << "PaintWindow::_saveAsFile(void)";
+  QString file;
+  file = QFileDialog::getSaveFileName(this,
+                                      tr("Save Image"),NULL,tr("ImageFile(*.png *.jpg *.bmp)"));
+  _area->savePicture(file);
+  filename = file;
+  qDebug()<<file;
 }
 
 void PaintWindow::quit(void)  {
   exit(0);
+}
+
+
+void PaintWindow::draw(void){
+  _saveAct->setDisabled(false);
+  _saveAsAct->setDisabled(false);
 }

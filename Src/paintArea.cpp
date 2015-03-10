@@ -59,6 +59,9 @@ void PaintArea::paintEvent(QPaintEvent* evt)
       if (_release) paintBuffer.drawRect(QRect(_startPoint,_endPoint));
       paintWindow.drawRect(QRect(_startPoint,_endPoint));
       break;
+  case TOOLS_ID_CIRCLE:
+    if(_release)paintBuffer.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
+    paintWindow.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
     default :
       break;
   }
@@ -66,4 +69,29 @@ void PaintArea::paintEvent(QPaintEvent* evt)
 
 void PaintArea::setCurrentTool(int tool) {
   _currentTool = tool;
+}
+
+/**
+ * loadPicture
+ *load a picture
+ * @param filename: path 
+ **/
+bool PaintArea::loadPicture(QString filename){
+  bool load = _buffer->load(filename);
+  if(load)
+    {
+
+    }
+  update();
+  return load;
+}
+
+
+/**
+ * savePicture
+ * save the actual picture
+ * @param filename: path to save picture
+ **/
+bool PaintArea::savePicture(QString filename){
+  return _buffer->save(filename);
 }

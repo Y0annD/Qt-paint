@@ -13,6 +13,7 @@
 #include <QMessageBox>
 #include <QScrollArea>
 #include <QSignalMapper>
+#include <QFileDialog>
 
 #include <QDebug>
 #include <QDate>
@@ -28,6 +29,7 @@ class PaintWindow : public QMainWindow
    void toolMapped(int digit);
   public slots :
     void quit(void);
+    void draw(void);
   private slots :
     /* Menu file*/
     void _newFile(void);
@@ -54,9 +56,12 @@ class PaintWindow : public QMainWindow
    // actions
    QAction *_newAct,*_openAct, *_saveAct, *_saveAsAct, *_exitAct, *_aboutAct, *_aboutQtAct;
    QActionGroup *_toolsQag;
-   QAction *_freehandAct, *_lineAct, *_rectAct, *_polyAct, *_textAct;
+   QAction *_freehandAct, *_lineAct, *_rectAct, *_polyAct, *_textAct, *_circleAct;
    // mapping 
    QSignalMapper *_signalMapper;
+
+   // filename
+   QString filename;
 };
 #endif
 
