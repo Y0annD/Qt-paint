@@ -77,6 +77,7 @@ void PaintArea::paintEvent(QPaintEvent* evt)
   case TOOLS_ID_CIRCLE:
     if(_release)paintBuffer.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
     paintWindow.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
+    break;
   case TOOLS_ID_POLYGON:
     /* TODO */
     if (_release && !editPoly) {
@@ -95,8 +96,12 @@ void PaintArea::paintEvent(QPaintEvent* evt)
       }
     }
     break;
-    default :
-      break;
+  case TOOLS_ID_TEXT:
+    paintBuffer.drawText(_startPoint,string);
+    paintWindow.drawText(_startPoint,string);
+    break;
+  default :
+    break;
   }
 }
 
@@ -133,4 +138,11 @@ bool PaintArea::loadPicture(QString filename){
  **/
 bool PaintArea::savePicture(QString filename){
   return _buffer->save(filename);
+}
+
+
+void PaintArea::keyPressEvent(QKeyEvent* event){
+  qDebug()<<"KeyPressed";
+  string = string + event->text();
+  update();
 }
