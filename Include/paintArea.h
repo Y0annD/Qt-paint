@@ -15,10 +15,12 @@ class PaintArea : public QWidget
 
   public:
   PaintArea(QWidget *parent = 0, QString file = "");
+  bool savePicture(QString);
+  bool loadPicture(QString);
+  void reset(QWidget*);
   public slots:
     void setCurrentTool(int);
-    bool savePicture(QString);
-    bool loadPicture(QString);
+
   protected :
     void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);

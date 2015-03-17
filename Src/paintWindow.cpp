@@ -195,11 +195,12 @@ void PaintWindow::_newFile(void)  {
   case QMessageBox::Save:
     // save the picture
     _saveFile();
-    _area = new PaintArea(this);
-    setCentralWidget(_area);
+    _area->reset(this);
+    //_area = new PaintArea(this);
     break;
   case QMessageBox::Discard:
     // Don't save the picture
+    _area->reset(this);
     break;
   case QMessageBox::Cancel:
     break;

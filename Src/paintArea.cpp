@@ -105,6 +105,15 @@ void PaintArea::setCurrentTool(int tool) {
 }
 
 /**
+ * reset buffer
+ **/
+void PaintArea::reset(QWidget* parent){
+    _buffer = new QPixmap(parent->size());
+    _buffer->fill(Qt::white);
+    update();
+}
+
+/**
  * loadPicture
  *load a picture
  * @param filename: path 
