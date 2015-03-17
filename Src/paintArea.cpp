@@ -4,6 +4,7 @@
 PaintArea::PaintArea(QWidget *parent, QString file) : QWidget(parent) {
   qDebug() << "PaintArea::PaintArea(void)";
   _startPoint = _endPoint = QPoint(0,0);
+  editPoly = false;
   if(file!=""){
     _buffer = new QPixmap(file);
     parent->setFixedWidth(_buffer->width());
@@ -11,6 +12,7 @@ PaintArea::PaintArea(QWidget *parent, QString file) : QWidget(parent) {
   }else{
     _buffer = new QPixmap(parent->size());
     _buffer->fill(Qt::white);
+    //scene = new QGraphicsScene(parent);
   }
   _release=false;
 }
@@ -18,15 +20,23 @@ PaintArea::PaintArea(QWidget *parent, QString file) : QWidget(parent) {
 void PaintArea::mousePressEvent(QMouseEvent* evt) {
   qDebug() << "PaintArea::mousePressEvent(void)";
   _release=false;
-  _startPoint = _endPoint = evt->pos(); 
+  _startPoint = _endPoint = evt->pos();
+  if(_currentTool == TOOLS_ID_POLYGON){
+    points <<  _startPoint;
+    editPoly = true;
+  }
+  update();
 }
 
 void PaintArea::mouseMoveEvent(QMouseEvent* evt) 
 {
-// qDebug() << "PaintArea::mouseMoveEvent(void)";
-  _endPoint = evt->pos(); 
+  qDebug() << "PaintArea::mouseMoveEvent(void)";
+  _endPoint = evt->pos();
+
   update();
 }
+
+
 void PaintArea::mouseReleaseEvent(QMouseEvent* evt) 
 {
   qDebug() << "PaintArea::mouseReleaseEvent(void)";
@@ -37,6 +47,11 @@ void PaintArea::mouseReleaseEvent(QMouseEvent* evt)
 
 void PaintArea::mouseDoubleClickEvent (QMouseEvent* evt) {
   qDebug() << "PaintArea::mouseDoubleClickEvent(void)";
+  if(_currentTool == TOOLS_ID_POLYGON){
+    editPoly=false;
+    points << points[0];
+  }
+  update();
 }
 
 void PaintArea::paintEvent(QPaintEvent* evt) 
@@ -62,6 +77,24 @@ void PaintArea::paintEvent(QPaintEvent* evt)
   case TOOLS_ID_CIRCLE:
     if(_release)paintBuffer.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
     paintWindow.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
+  case TOOLS_ID_POLYGON:
+    /* TODO */
+    if (_release && !editPoly) {
+      polygon = QPolygon (points);
+      paintBuffer.drawPolygon(polygon);
+      paintWindow.drawPolygon(polygon);
+      points = QVector<QPoint>();
+    }else{
+      if(points.size()>1){
+        for(int i=0;i<points.size()-1;i++){
+          paintWindow.drawLine(points[i],points[i+1]);
+        }
+        paintWindow.drawLine(points[points.size()-1],_endPoint);
+      }else{
+        paintWindow.drawLine(points[0],_endPoint);
+      }
+    }
+    break;
     default :
       break;
   }
@@ -78,10 +111,7 @@ void PaintArea::setCurrentTool(int tool) {
  **/
 bool PaintArea::loadPicture(QString filename){
   bool load = _buffer->load(filename);
-  if(load)
-    {
-
-    }
+ 
   update();
   return load;
 }
