@@ -20,7 +20,6 @@ PaintWindow::PaintWindow(QWidget *parent) : QMainWindow(parent) {
   _signalMapper->setMapping(_circleAct, TOOLS_ID_CIRCLE);
   _signalMapper->setMapping(_rectAct, TOOLS_ID_RECTANGLE);
   _signalMapper->setMapping(_polyAct, TOOLS_ID_POLYGON);
-  _signalMapper->setMapping(_textAct, TOOLS_ID_TEXT);
 
   _connectSignals();
 }
@@ -94,7 +93,6 @@ void PaintWindow::_createActions(void) {
   _polyAct = new QAction(QIcon(":/Images/tool_polygon.png"),tr("&Polygon"), this);
   _textAct = new QAction(QIcon(":/Images/tool_text.png"),tr("&Text"),this);
   _freehandAct->setCheckable(true);
-  _freehandAct->setChecked(true);
   _lineAct->setCheckable(true);
   _circleAct->setCheckable(true);
   _rectAct->setCheckable(true);
@@ -283,8 +281,6 @@ void PaintWindow::draw(void){
 
 void PaintWindow::color(void){
   qDebug()<< "PaintWindow::color(void)";
-  QColorDialog* dial =new QColorDialog();
-  dial->open();
-  _area->setCurrentColor(dial->currentColor());
+  _area->setCurrentColor(QColorDialog::getColor());
 }
 
