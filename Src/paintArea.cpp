@@ -5,6 +5,7 @@ PaintArea::PaintArea(QWidget *parent, QString file) : QWidget(parent) {
   qDebug() << "PaintArea::PaintArea(void)";
   _startPoint = _endPoint = QPoint(0,0);
   editPoly = false;
+  _color = QColor(255,0,0);
   if(file!=""){
     _buffer = new QPixmap(file);
     parent->setFixedWidth(_buffer->width());
@@ -60,6 +61,8 @@ void PaintArea::paintEvent(QPaintEvent* evt)
   qDebug() << _currentTool;
   QPainter paintWindow(this);
   QPainter paintBuffer(_buffer);
+  paintWindow.setPen(_color);
+  paintBuffer.setPen(_color);
   paintWindow.drawPixmap(0,0, *_buffer);
   switch(_currentTool) {
     case TOOLS_ID_FREEHAND :
@@ -77,6 +80,7 @@ void PaintArea::paintEvent(QPaintEvent* evt)
   case TOOLS_ID_CIRCLE:
     if(_release)paintBuffer.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
     paintWindow.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
+    break;
   case TOOLS_ID_POLYGON:
     /* TODO */
     if (_release && !editPoly) {
@@ -95,13 +99,21 @@ void PaintArea::paintEvent(QPaintEvent* evt)
       }
     }
     break;
-    default :
-      break;
+  case TOOLS_ID_TEXT:
+    paintBuffer.drawText(_startPoint,string);
+    paintWindow.drawText(_startPoint,string);
+    break;
+  default :
+    break;
   }
 }
 
 void PaintArea::setCurrentTool(int tool) {
   _currentTool = tool;
+}
+
+void PaintArea::setCurrentColor(QColor color){
+  _color = color;
 }
 
 /**
@@ -133,4 +145,11 @@ bool PaintArea::loadPicture(QString filename){
  **/
 bool PaintArea::savePicture(QString filename){
   return _buffer->save(filename);
+}
+
+
+void PaintArea::keyPressEvent(QKeyEvent* event){
+  qDebug()<<"KeyPressed";
+  string = string + event->text();
+  update();
 }
