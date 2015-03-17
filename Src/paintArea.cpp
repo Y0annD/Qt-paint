@@ -62,6 +62,10 @@ void PaintArea::paintEvent(QPaintEvent* evt)
   case TOOLS_ID_CIRCLE:
     if(_release)paintBuffer.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
     paintWindow.drawEllipse(_startPoint, abs(_endPoint.x()-_startPoint.x()),abs(_endPoint.y()-_startPoint.y()));
+  case TOOLS_ID_POLYGON :
+    if (_release) paintBuffer.drawLine(_startPoint,_endPoint);
+    paintWindow.drawLine(_startPoint,_endPoint);
+    break;
     default :
       break;
   }

@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
   PaintWindow window;
 
-  window.setWindowTitle("Paint Diquélou Toscer");
+  window.setWindowTitle("Paint Diquï¿½lou Toscer");
   window.show();
   center(window);
 

@@ -29,7 +29,17 @@ void PaintWindow::_createMenus(void) {
  statusBar()->showMessage("Ready");
  _fileMenu = menubar->addMenu( tr("&File") );
  _toolMenu = menubar->addMenu("&Tool");
+ _styleMenu = menubar->addMenu("&Style");
  _helpMenu = menubar->addMenu( tr("&Help") );
+
+  _penSubMenu = _styleMenu->addMenu(tr("&Pen"));
+  _colorPenSubMenu = _penSubMenu->addMenu(tr("&Color"));
+  _linePenSubMenu = _penSubMenu->addMenu(tr("&Line"));
+  _widthPenSubMenu = _penSubMenu->addMenu(tr("&Width"));
+  _brushSubMenu = _styleMenu->addMenu(tr("&Brush"));
+  _colorBrushSubMenu = _brushSubMenu->addMenu(tr("&Color"));
+  _fillBrushSubMenu = _brushSubMenu->addMenu(tr("&Fill"));
+
 }
 //--------------------------------------------------------------------------------
 void PaintWindow::_createToolBars(void) {
@@ -89,6 +99,9 @@ void PaintWindow::_createActions(void) {
   _circleAct->setCheckable(true);
   _rectAct->setCheckable(true);
   _polyAct->setCheckable(true);
+
+  _fontAct = new QAction (QIcon(":/Images/tool_font.png"),tr("&Font"),this);
+
 }
 //--------------------------------------------------------------------------------
 void PaintWindow::_connectActions(void) {
@@ -120,6 +133,8 @@ void PaintWindow::_connectActions(void) {
  _toolMenu->addAction(_polyAct);
  _toolMenu->addSeparator();
  _toolMenu->addAction(_textAct);
+
+ _styleMenu->addAction(_fontAct);
  
  _helpMenu->addAction(_aboutAct);
  _helpMenu->addAction(_aboutQtAct);
@@ -146,6 +161,9 @@ void PaintWindow::_connectSignals(void) {
 
  connect(_signalMapper,SIGNAL(mapped(int)), this, SIGNAL(toolMapped(int)));
  connect(this, SIGNAL(toolMapped(int)), _area, SLOT(setCurrentTool(int)) );
+
+ // connect(_area,SIGNAL(popUpAsked(QPoint)),this,SLOT(showpopup(QPoint)));
+
 }
 //--------------------------------------------------------------------------------
 void PaintWindow::_about(void) {
