@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'paintWindow.h'
 **
-** Created: Tue Mar 10 12:36:51 2015
+** Created: Tue Mar 17 16:20:24 2015
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_PaintWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,20 +35,24 @@ static const uint qt_meta_data_PaintWindow[] = {
 
  // slots: signature, parameters, type, tag, flags
       35,   12,   12,   12, 0x0a,
-      42,   12,   12,   12, 0x08,
-      53,   12,   12,   12, 0x08,
-      65,   12,   12,   12, 0x08,
-      77,   12,   12,   12, 0x08,
-      91,   12,   12,   12, 0x08,
-     100,   12,   12,   12, 0x08,
+      42,   12,   12,   12, 0x0a,
+      50,   12,   12,   12, 0x0a,
+      57,   12,   12,   12, 0x08,
+      68,   12,   12,   12, 0x08,
+      80,   12,   12,   12, 0x08,
+      92,   12,   12,   12, 0x08,
+     106,   12,   12,   12, 0x08,
+     114,   12,   12,   12, 0x08,
+     123,   12,   12,   12, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_PaintWindow[] = {
     "PaintWindow\0\0digit\0toolMapped(int)\0"
-    "quit()\0_newFile()\0_openFile()\0_saveFile()\0"
-    "_saveAsFile()\0_about()\0_aboutQt()\0"
+    "quit()\0_exit()\0draw()\0_newFile()\0"
+    "_openFile()\0_saveFile()\0_saveAsFile()\0"
+    "color()\0_about()\0_aboutQt()\0"
 };
 
 const QMetaObject PaintWindow::staticMetaObject = {
@@ -82,15 +86,18 @@ int PaintWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: toolMapped((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: quit(); break;
-        case 2: _newFile(); break;
-        case 3: _openFile(); break;
-        case 4: _saveFile(); break;
-        case 5: _saveAsFile(); break;
-        case 6: _about(); break;
-        case 7: _aboutQt(); break;
+        case 2: _exit(); break;
+        case 3: draw(); break;
+        case 4: _newFile(); break;
+        case 5: _openFile(); break;
+        case 6: _saveFile(); break;
+        case 7: _saveAsFile(); break;
+        case 8: color(); break;
+        case 9: _about(); break;
+        case 10: _aboutQt(); break;
         default: ;
         }
-        _id -= 8;
+        _id -= 11;
     }
     return _id;
 }

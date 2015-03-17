@@ -33,11 +33,9 @@ void PaintWindow::_createMenus(void) {
  _helpMenu = menubar->addMenu( tr("&Help") );
 
   _penSubMenu = _styleMenu->addMenu(tr("&Pen"));
-  _colorPenSubMenu = _penSubMenu->addMenu(tr("&Color"));
   _linePenSubMenu = _penSubMenu->addMenu(tr("&Line"));
   _widthPenSubMenu = _penSubMenu->addMenu(tr("&Width"));
   _brushSubMenu = _styleMenu->addMenu(tr("&Brush"));
-  _colorBrushSubMenu = _brushSubMenu->addMenu(tr("&Color"));
   _fillBrushSubMenu = _brushSubMenu->addMenu(tr("&Fill"));
 
 }
@@ -100,6 +98,8 @@ void PaintWindow::_createActions(void) {
   _rectAct->setCheckable(true);
   _polyAct->setCheckable(true);
 
+  _colorPen = new QAction(QIcon(":/Images/colorize.png"),tr("&Color"),this);
+  _colorBrush = new QAction(QIcon(":/Images/colorize.png"),tr("&Color"),this);
   _fontAct = new QAction (QIcon(":/Images/tool_font.png"),tr("&Font"),this);
 
 }
@@ -135,6 +135,8 @@ void PaintWindow::_connectActions(void) {
  _toolMenu->addAction(_textAct);
 
  _styleMenu->addAction(_fontAct);
+ _penSubMenu->addAction(_colorPen);
+ _brushSubMenu->addAction(_colorBrush);
  
  _helpMenu->addAction(_aboutAct);
  _helpMenu->addAction(_aboutQtAct);
@@ -155,6 +157,9 @@ void PaintWindow::_connectSignals(void) {
  connect(_polyAct,SIGNAL(activated()),_signalMapper, SLOT(map()));
  connect(_circleAct,SIGNAL(activated()),_signalMapper, SLOT(map()));
  connect(_textAct, SIGNAL(activated()),_signalMapper,SLOT(map()));
+
+ connect(_colorPen, SIGNAL(triggered()),this,SLOT(color()));
+ connect(_colorBrush, SIGNAL(triggered()),this,SLOT(color()));
 
  connect(_aboutAct, SIGNAL(triggered()),this, SLOT(_about()));
  connect(_aboutQtAct,SIGNAL(triggered()),this, SLOT(_aboutQt()));
@@ -272,5 +277,12 @@ void PaintWindow::quit(void)  {
 void PaintWindow::draw(void){
   _saveAct->setDisabled(false);
   _saveAsAct->setDisabled(false);
+}
+
+void PaintWindow::color(void){
+  qDebug()<< "PaintWindow::color(void)";
+  QColorDialog* dial =new QColorDialog();
+  dial->open();
+  _area->setCurrentColor(dial->currentColor());
 }
 

@@ -14,6 +14,7 @@
 #include <QScrollArea>
 #include <QSignalMapper>
 #include <QFileDialog>
+#include <QColorDialog>
 
 #include <QDebug>
 #include <QDate>
@@ -37,6 +38,7 @@ class PaintWindow : public QMainWindow
     void _openFile(void);
     void _saveFile(void);
     void _saveAsFile(void);
+    void color(void);
 
     /* About menu*/
     void _about(void);
@@ -54,12 +56,12 @@ class PaintWindow : public QMainWindow
    // menus
    QToolBar *_toolBar;
    QMenu *_fileMenu, *_toolMenu, *_styleMenu, *_helpMenu ;
-   QMenu *_penSubMenu, *_colorPenSubMenu, *_linePenSubMenu, *_widthPenSubMenu, *_brushSubMenu, *_colorBrushSubMenu, *_fillBrushSubMenu;
+   QMenu *_penSubMenu, *_linePenSubMenu, *_widthPenSubMenu, *_brushSubMenu, *_fillBrushSubMenu;
    // actions
    QAction *_newAct,*_openAct, *_saveAct, *_saveAsAct, *_exitAct, *_aboutAct, *_aboutQtAct;
    QActionGroup *_toolsQag;
    QAction *_freehandAct, *_lineAct, *_rectAct, *_polyAct, *_textAct, *_circleAct;
-   QAction *_fontAct;
+   QAction *_colorPen, *_colorBrush, *_fontAct;
    // mapping 
    QSignalMapper *_signalMapper;
 
