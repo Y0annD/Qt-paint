@@ -112,8 +112,12 @@ void PaintArea::setCurrentTool(int tool) {
   _currentTool = tool;
 }
 
-void PaintArea::setCurrentColor(QColor color){
+void PaintArea::setPenColor(QColor color){
   _color = color;
+}
+
+void PaintArea::setFillColor(QColor color){
+  _fillColor = color;
 }
 
 /**

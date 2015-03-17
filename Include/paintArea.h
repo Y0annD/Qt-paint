@@ -21,7 +21,8 @@ class PaintArea : public QWidget
   bool savePicture(QString);
   bool loadPicture(QString);
   void reset(QWidget*);
-  void setCurrentColor(QColor);
+  void setPenColor(QColor);
+  void setFillColor(QColor);
   public slots:
     void setCurrentTool(int);
 
@@ -36,7 +37,7 @@ class PaintArea : public QWidget
 
   private :
    QPoint  _startPoint,_endPoint;
-   QColor _color;
+   QColor _color, _fillColor;
    QPolygon polygon;
    QPixmap *_buffer;
    QString string;

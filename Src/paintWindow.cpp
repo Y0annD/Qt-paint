@@ -281,6 +281,6 @@ void PaintWindow::draw(void){
 
 void PaintWindow::color(void){
   qDebug()<< "PaintWindow::color(void)";
-  _area->setCurrentColor(QColorDialog::getColor());
+  _area->setPenColor(QColorDialog::getColor());
 }
 
