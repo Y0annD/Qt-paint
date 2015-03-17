@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   window.setWindowTitle("Paint Diqu�lou Toscer");
   window.show();
   center(window);
+      
 
   return app.exec();
 }
-

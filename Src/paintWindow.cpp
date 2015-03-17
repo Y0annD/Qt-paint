@@ -147,7 +147,7 @@ void PaintWindow::_connectSignals(void) {
  connect(_openAct, SIGNAL(triggered()), this,SLOT(_openFile( )) );
  connect(_saveAct, SIGNAL(triggered()), this,SLOT(_saveFile( )) );
  connect(_saveAsAct, SIGNAL(triggered()), this,SLOT(_saveAsFile( )) );
- connect(_exitAct,SIGNAL(activated()), this, SLOT(quit()));
+ connect(_exitAct,SIGNAL(activated()), this, SLOT(_exit()));
 
  connect(_freehandAct,SIGNAL(activated()),_signalMapper, SLOT(map()));
  connect(_lineAct,SIGNAL(activated()),_signalMapper, SLOT(map()));
@@ -174,6 +174,24 @@ void PaintWindow::_aboutQt(void) {
  QMessageBox::aboutQt(this);
 }
 //--------------------------------------------------------------------------------
+
+/**
+ * Affiche une boite de dialogue pour que l'utilisateur confirme 
+ * ou non la sortie
+ **/
+void PaintWindow::_exit(){
+QMessageBox::StandardButton reply;
+  reply = QMessageBox::question(this, "Qt-Paint Diquélou Toscer", "Quit?",
+                                QMessageBox::Yes|QMessageBox::No);
+
+  if (reply == QMessageBox::Yes) {
+    qDebug() << "Yes was clicked";
+    QApplication::quit();
+  } else {
+    qDebug() << "Yes was *not* clicked";
+  }
+}
+
 void PaintWindow::_newFile(void)  {
   qDebug() << "PaintWindow::_newFile(void)";
   /*  QMessageBox msgBox;
@@ -195,11 +213,12 @@ void PaintWindow::_newFile(void)  {
   case QMessageBox::Save:
     // save the picture
     _saveFile();
-    _area = new PaintArea(this);
-    setCentralWidget(_area);
+    _area->reset(this);
+    //_area = new PaintArea(this);
     break;
   case QMessageBox::Discard:
     // Don't save the picture
+    _area->reset(this);
     break;
   case QMessageBox::Cancel:
     break;
@@ -254,3 +273,4 @@ void PaintWindow::draw(void){
   _saveAct->setDisabled(false);
   _saveAsAct->setDisabled(false);
 }
+
