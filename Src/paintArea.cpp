@@ -5,6 +5,7 @@ PaintArea::PaintArea(QWidget *parent, QString file) : QWidget(parent) {
   qDebug() << "PaintArea::PaintArea(void)";
   _startPoint = _endPoint = QPoint(0,0);
   editPoly = false;
+  _color = QColor(255,0,0);
   if(file!=""){
     _buffer = new QPixmap(file);
     parent->setFixedWidth(_buffer->width());
@@ -60,6 +61,8 @@ void PaintArea::paintEvent(QPaintEvent* evt)
   qDebug() << _currentTool;
   QPainter paintWindow(this);
   QPainter paintBuffer(_buffer);
+  paintWindow.setPen(_color);
+  paintBuffer.setPen(_color);
   paintWindow.drawPixmap(0,0, *_buffer);
   switch(_currentTool) {
     case TOOLS_ID_FREEHAND :
@@ -107,6 +110,10 @@ void PaintArea::paintEvent(QPaintEvent* evt)
 
 void PaintArea::setCurrentTool(int tool) {
   _currentTool = tool;
+}
+
+void PaintArea::setCurrentColor(QColor color){
+  _color = color;
 }
 
 /**

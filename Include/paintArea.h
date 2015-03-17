@@ -21,9 +21,9 @@ class PaintArea : public QWidget
   bool savePicture(QString);
   bool loadPicture(QString);
   void reset(QWidget*);
+  void setCurrentColor(QColor);
   public slots:
     void setCurrentTool(int);
-    void setCurrentColor(QColor);
 
   protected :
     void mousePressEvent(QMouseEvent*);
@@ -31,11 +31,12 @@ class PaintArea : public QWidget
     void mouseReleaseEvent(QMouseEvent*);
     void mouseDoubleClickEvent(QMouseEvent* evt);
     void paintEvent(QPaintEvent*);
-    void keyPressEvent(QKeyEvent*);
+    virtual void keyPressEvent(QKeyEvent*);
    
 
   private :
    QPoint  _startPoint,_endPoint;
+   QColor _color;
    QPolygon polygon;
    QPixmap *_buffer;
    QString string;
