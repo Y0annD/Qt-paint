@@ -29,6 +29,7 @@ class PaintWindow : public QMainWindow
    void toolMapped(int digit);
   public slots :
     void quit(void);
+    void _exit(void);
     void draw(void);
   private slots :
     /* Menu file*/
